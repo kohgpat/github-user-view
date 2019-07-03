@@ -7,7 +7,21 @@ function saveTokenToLocalStorage(token) {
   const state = loadState();
   saveState({
     ...state,
-    auth: { token }
+    auth: {
+      ...state.auth,
+      token
+    }
+  });
+}
+
+function saveCurrentUserToLocalStorage(user) {
+  const state = loadState();
+  saveState({
+    ...state,
+    auth: {
+      ...state.auth,
+      user
+    }
   });
 }
 
@@ -24,7 +38,7 @@ function authenticate(params) {
           resolve(token);
 
           API.github.users.getCurrentUser().then(user => {
-            console.log(user);
+            saveCurrentUserToLocalStorage(user);
           });
         } else if (error) {
           reject();
