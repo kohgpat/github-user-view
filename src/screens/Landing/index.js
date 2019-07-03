@@ -8,7 +8,7 @@ export default function Landing() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return <Redirect to="/users" />;
+    return <Redirect to="/me" />;
   }
 
   return (

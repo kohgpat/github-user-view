@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import { loadState, saveState } from "../../utils/localStorage";
 import { parseParams } from "../../utils/parseParams";
 import API from "../../api";
@@ -27,7 +28,7 @@ function login(code) {
 
 const AuthContext = React.createContext();
 
-function AuthProvider(props) {
+function Provider(props) {
   const persistedState = loadState();
 
   const [state, setState] = React.useState(persistedState);
@@ -50,6 +51,8 @@ function AuthProvider(props) {
 
     login(params.code);
   }, [token]);
+
+  console.log(value);
 
   return <AuthContext.Provider value={value} {...props} />;
 }
@@ -82,5 +85,7 @@ function useAuth() {
     logout
   };
 }
+
+const AuthProvider = withRouter(Provider);
 
 export { AuthProvider, useAuth };
