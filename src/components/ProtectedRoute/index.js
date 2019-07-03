@@ -1,21 +1,15 @@
 import React from "react";
-import {
-  Route,
-  Redirect
-} from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
+import { useAuth } from "../../contexts/Auth";
 
 export default function ProtectedRoute({ component: Component, ...rest }) {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Route
       {...rest}
       render={props =>
-        // fakeAuth.isAuthenticated === true ? (
-        //   <Component {...props} />
-        // ) : (
-        //   <Redirect to="/login" />
-        // )
-
-        <Redirect to="/login" />
+        isAuthenticated ? <Component {...props} /> : <Redirect to="/" />
       }
     />
   );

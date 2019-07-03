@@ -1,87 +1,66 @@
-import React from "react";
-import {
-  BrowserRouter as Router
-  // Route,
-  // Link,
-  // Redirect,
-  // withRouter
-} from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import "react-bulma-components/dist/react-bulma-components.min.css";
+import { loadState, saveState } from "./utils/localStorage";
+import { AuthProvider } from "./contexts/Auth";
 import Routes from "./components/Routes";
 
-// const fakeAuth = {
-//   isAuthenticated: false,
-//   authenticate(cb) {
-//     this.isAuthenticated = true;
-//     setTimeout(cb, 100);
-//   },
-//   signout(cb) {
-//     this.isAuthenticated = false;
-//     setTimeout(cb, 100);
-//   }
-// };
-
-// const ProtectedRoute = ({ component: Component, ...rest }) => (
-//   <Route
-//     {...rest}
-//     render={props =>
-//       fakeAuth.isAuthenticated === true ? (
-//         <Component {...props} />
-//       ) : (
-//         <Redirect to="/login" />
-//       )
-//     }
-//   />
-// );
-
-// const AuthButton = withRouter(({ history }) =>
-//   fakeAuth.isAuthenticated ? (
-//     <p>
-//       Welcome!
-//       <button
-//         type="button"
-//         onClick={() => {
-//           fakeAuth.signout(() => {
-//             history.push("/");
-//           });
-//         }}
-//       >
-//         Logout
-//       </button>
-//     </p>
-//   ) : (
-//     <p>You are not logged in.</p>
-//   )
-// );
-
-// const Login = () => {
-//   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
-
-//   const login = () => {
-//     fakeAuth.authenticate(() => {
-//       setRedirectToReferrer(true);
-//     });
-//   };
-
-//   if (redirectToReferrer === true) {
-//     return <Redirect to="/" />;
-//   }
-
-//   return (
-//     <div>
-//       <h1>Login</h1>
-
-//       <button type="button" onClick={login}>
-//         Login
-//       </button>
-//     </div>
-//   );
-// };
-
 function App() {
+  const savedState = loadState();
+  const token = savedState && savedState.auth && savedState.auth.token;
+
+  console.log("token: ", token);
+
+  useEffect(() => {
+    if (token) {
+      return;
+    }
+
+    const regex = /[?&]([^=#]+)=([^&#]*)/g;
+    const url = window.location.href;
+    let params = {};
+    let match;
+
+    while ((match = regex.exec(url))) {
+      params[match[1]] = match[2];
+    }
+
+    if (!params.code) {
+      return;
+    }
+
+    fetch(`https://gh-gatekeeper.herokuapp.com/authenticate/${params.code}`)
+      .then(response => response.json())
+      .then(({ token, error }) => {
+        if (token) {
+          saveState({ auth: { token } });
+          window.location.href = "/";
+
+          // return <Redirect to="/" />;
+        }
+
+        if (error) {
+          saveState({ auth: { token: undefined } });
+          window.location.href = "/";
+          // return <Redirect to="/" />;
+        }
+      })
+      .catch(error => {
+        console.log(error);
+
+        if (error) {
+          saveState({ auth: { token: undefined } });
+          window.location.href = "/";
+          // return <Redirect to="/" />;
+        }
+      });
+  }, [token]);
+
   return (
     <Router>
-      <Routes />
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
     </Router>
   );
 }
