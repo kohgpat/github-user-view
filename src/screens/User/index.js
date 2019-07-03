@@ -25,7 +25,7 @@ function User() {
 
   useEffect(() => {
     fetchRepos();
-  }, [fetchRepos]);
+  }, []);
 
   return (
     <div>

@@ -3,8 +3,9 @@ import API from "../../api";
 import { loadState } from "../../utils/localStorage";
 
 const INITIAL_STATE = {
-  user: {},
-  repos: []
+  user: {
+    repos: []
+  }
 };
 
 const UserContext = React.createContext();
@@ -33,14 +34,17 @@ function useUser() {
   };
 
   const getRepos = () => {
-    return state.repos || [];
+    return (state.user && state.user.repos) || [];
   };
 
   const fetchRepos = () => {
     API.github.repos.getRepos().then(({ data: repos }) => {
       setState({
         ...state,
-        repos
+        user: {
+          ...state.user,
+          repos
+        }
       });
     });
   };
