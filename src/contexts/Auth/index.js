@@ -11,10 +11,8 @@ function saveTokenToLocalStorage(token) {
   });
 }
 
-function authenticate() {
+function authenticate(params) {
   return new Promise((resolve, reject) => {
-    const params = parseParams(window.location.href);
-
     if (!params.code) {
       reject();
     }
@@ -40,8 +38,15 @@ const AuthContext = React.createContext();
 
 function AuthProvider(props) {
   const persistedState = loadState();
+  const params = parseParams(window.location.href);
 
-  const [state, setState] = React.useState(persistedState);
+  const [state, setState] = React.useState({
+    ...persistedState,
+    auth: {
+      ...persistedState.auth,
+      isLoading: !!params.code
+    }
+  });
 
   const value = React.useMemo(() => [state, setState], [state]);
 
@@ -49,7 +54,7 @@ function AuthProvider(props) {
     persistedState && persistedState.auth && persistedState.auth.token;
 
   if (!persistedToken) {
-    authenticate()
+    authenticate(params)
       .then(token => {
         saveTokenToLocalStorage(token);
 
@@ -57,6 +62,7 @@ function AuthProvider(props) {
           ...state,
           auth: {
             ...state.auth,
+            isLoading: false,
             token
           }
         });
@@ -93,6 +99,7 @@ function useAuth() {
 
   return {
     isAuthenticated: !!state.auth.token,
+    isLoading: state.auth.isLoading,
     token: state.auth.token,
     logout
   };
