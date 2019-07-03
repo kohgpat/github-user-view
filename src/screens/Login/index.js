@@ -3,7 +3,8 @@ import React from "react";
 export default function Login() {
   return (
     <div>
-      <a href="#">Login with Github</a>
+      {/* <a href="#">Login with Github</a> */}
+      Login
     </div>
   );
 }
