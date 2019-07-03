@@ -3,6 +3,9 @@ import {
   Route
 } from "react-router-dom";
 import ProtectedRoute from "../ProtectedRoute";
+import LandingScreen from "../../screens/Landing";
+import LoginScreen from "../../screens/Login";
+import UsersScreen from "../../screens/Users";
 
 export default function Routes() {
   return (
