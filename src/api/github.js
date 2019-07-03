@@ -5,6 +5,11 @@ const github = {
     getCurrentUser: () => {
       return axios.get("/user");
     }
+  },
+  repos: {
+    getRepos: () => {
+      return axios.get(`/user/repos`);
+    }
   }
 };
 

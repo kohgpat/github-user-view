@@ -39,7 +39,7 @@ function authenticate(params) {
         if (token) {
           resolve(token);
 
-          API.github.users.getCurrentUser().then(user => {
+          API.github.users.getCurrentUser().then(({ data: user }) => {
             saveCurrentUserToLocalStorage(user);
           });
         } else if (error) {
@@ -109,16 +109,8 @@ function useAuth() {
   const [state, setState] = context;
 
   const logout = () => {
-    const logoutState = {
-      ...state,
-      auth: {
-        ...state.auth,
-        token: undefined
-      }
-    };
-
-    setState(logoutState);
-    saveState(logoutState);
+    setState(INITIAL_STATE);
+    saveState(INITIAL_STATE);
   };
 
   return {
