@@ -103,7 +103,7 @@ function useAuth() {
   const context = React.useContext(AuthContext);
 
   if (!context) {
-    throw new Error("useLists should be used within a AuthContext");
+    throw new Error("useAuth should be used within a AuthContext");
   }
 
   const [state, setState] = context;
