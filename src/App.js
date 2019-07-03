@@ -6,6 +6,7 @@ import {
   // Redirect,
   // withRouter
 } from "react-router-dom";
+import "react-bulma-components/dist/react-bulma-components.min.css";
 import Routes from "./components/Routes";
 
 // const fakeAuth = {
