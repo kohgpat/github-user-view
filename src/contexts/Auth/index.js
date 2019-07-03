@@ -1,34 +1,48 @@
-import React, { useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import React from "react";
 import { loadState, saveState } from "../../utils/localStorage";
 import { parseParams } from "../../utils/parseParams";
 import API from "../../api";
 
-function saveTokenAndRedirect(token) {
+function saveTokenToLocalStorage(token) {
   saveState({ auth: { token } });
-  window.location.href = "/";
+  // window.location.href = "/";
 }
 
-function login(code) {
-  API.auth
-    .login(code)
-    .then(({ data: { token, error } }) => {
-      if (token) {
-        saveTokenAndRedirect(token);
-      } else if (error) {
-        saveTokenAndRedirect(undefined);
-      }
-    })
-    .catch(error => {
-      if (error) {
-        saveTokenAndRedirect(undefined);
-      }
-    });
+function authenticate(token) {
+  return new Promise((resolve, reject) => {
+    if (token) {
+      reject();
+    }
+
+    const params = parseParams(window.location.href);
+
+    if (!params.code) {
+      reject();
+    }
+
+    API.auth
+      .login(params.code)
+      .then(({ data: { token, error } }) => {
+        if (token) {
+          saveTokenToLocalStorage(token);
+          resolve(token);
+        } else if (error) {
+          saveTokenToLocalStorage(undefined);
+          reject();
+        }
+      })
+      .catch(error => {
+        if (error) {
+          saveTokenToLocalStorage(undefined);
+          reject();
+        }
+      });
+  });
 }
 
 const AuthContext = React.createContext();
 
-function Provider(props) {
+function AuthProvider(props) {
   const persistedState = loadState();
 
   const [state, setState] = React.useState(persistedState);
@@ -38,21 +52,17 @@ function Provider(props) {
   const token =
     persistedState && persistedState.auth && persistedState.auth.token;
 
-  useEffect(() => {
-    if (token) {
-      return;
-    }
-
-    const params = parseParams(window.location.href);
-
-    if (!params.code) {
-      return;
-    }
-
-    login(params.code);
-  }, [token]);
-
-  console.log(value);
+  authenticate(token)
+    .then(token => {
+      setState({
+        ...state,
+        auth: {
+          ...state.auth,
+          token
+        }
+      });
+    })
+    .catch(() => {});
 
   return <AuthContext.Provider value={value} {...props} />;
 }
@@ -85,7 +95,5 @@ function useAuth() {
     logout
   };
 }
-
-const AuthProvider = withRouter(Provider);
 
 export { AuthProvider, useAuth };
