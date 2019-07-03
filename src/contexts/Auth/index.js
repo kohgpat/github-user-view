@@ -3,8 +3,13 @@ import { loadState, saveState } from "../../utils/localStorage";
 import { parseParams } from "../../utils/parseParams";
 import API from "../../api";
 
+const INITIAL_STATE = {
+  auth: {}
+};
+
 function saveTokenToLocalStorage(token) {
-  const state = loadState();
+  const state = loadState() || INITIAL_STATE;
+
   saveState({
     ...state,
     auth: {
@@ -18,10 +23,7 @@ function saveCurrentUserToLocalStorage(user) {
   const state = loadState();
   saveState({
     ...state,
-    auth: {
-      ...state.auth,
-      user
-    }
+    user
   });
 }
 
@@ -58,13 +60,17 @@ function AuthProvider(props) {
   const persistedState = loadState();
   const params = parseParams(window.location.href);
 
-  const [state, setState] = React.useState({
-    ...persistedState,
-    auth: {
-      ...persistedState.auth,
-      isLoading: !!params.code
-    }
-  });
+  const initialState = persistedState
+    ? {
+        ...persistedState,
+        auth: {
+          ...persistedState.auth,
+          isLoading: !!params.code
+        }
+      }
+    : INITIAL_STATE;
+
+  const [state, setState] = React.useState(initialState);
 
   const value = React.useMemo(() => [state, setState], [state]);
 
