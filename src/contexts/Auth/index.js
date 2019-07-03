@@ -5,7 +5,6 @@ import API from "../../api";
 
 function saveTokenToLocalStorage(token) {
   saveState({ auth: { token } });
-  // window.location.href = "/";
 }
 
 function authenticate(token) {
