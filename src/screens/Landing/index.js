@@ -18,7 +18,7 @@ export default function Landing() {
           <Container>
             <Heading size={1}>Github User View</Heading>
             <Heading size={4}>
-              React demo application - Github user viewer
+              React demo application built with Hooks, Context API and Github API
             </Heading>
             <Button color="black" renderAs={LoginButton} />
           </Container>
