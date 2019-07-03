@@ -7,10 +7,17 @@ import {
   Section,
   Button
 } from "react-bulma-components";
+import API from "../../api";
 import { useAuth } from "../../contexts/Auth";
 
 export default function User() {
   const { logout } = useAuth();
+
+  console.log('user');
+
+  // API.github.users.getCurrentUser().then(user => {
+  //   console.log(user);
+  // });
 
   return (
     <div>

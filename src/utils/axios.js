@@ -5,15 +5,23 @@ const getBaseUrl = () => {
   return "https://api.github.com";
 };
 
-axios.interceptors.request.use(function(config) {
+const instance = axios.create({
+  baseURL: getBaseUrl(),
+  timeout: 5000,
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
+
+instance.interceptors.request.use(function(config) {
   const state = loadState();
   const token = state.auth.token;
-  config.headers.Authorization = token;
+  config.headers.Authorization = `Bearer ${token}`;
 
   return config;
 });
 
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   function(response) {
     return response;
   },
@@ -33,13 +41,5 @@ axios.interceptors.response.use(
     }
   }
 );
-
-const instance = axios.create({
-  baseURL: getBaseUrl(),
-  timeout: 5000,
-  headers: {
-    "Content-Type": "application/json"
-  }
-});
 
 export default instance;

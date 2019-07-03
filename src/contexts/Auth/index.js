@@ -22,6 +22,10 @@ function authenticate(params) {
       .then(({ data: { token, error } }) => {
         if (token) {
           resolve(token);
+
+          API.github.users.getCurrentUser().then(user => {
+            console.log(user);
+          });
         } else if (error) {
           reject();
         }
