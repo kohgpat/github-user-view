@@ -4,15 +4,15 @@ import { parseParams } from "../../utils/parseParams";
 import API from "../../api";
 
 function saveTokenToLocalStorage(token) {
-  saveState({ auth: { token } });
+  const state = loadState();
+  saveState({
+    ...state,
+    auth: { token }
+  });
 }
 
-function authenticate(token) {
+function authenticate() {
   return new Promise((resolve, reject) => {
-    if (token) {
-      reject();
-    }
-
     const params = parseParams(window.location.href);
 
     if (!params.code) {
@@ -23,16 +23,13 @@ function authenticate(token) {
       .login(params.code)
       .then(({ data: { token, error } }) => {
         if (token) {
-          saveTokenToLocalStorage(token);
           resolve(token);
         } else if (error) {
-          saveTokenToLocalStorage(undefined);
           reject();
         }
       })
       .catch(error => {
         if (error) {
-          saveTokenToLocalStorage(undefined);
           reject();
         }
       });
@@ -48,20 +45,26 @@ function AuthProvider(props) {
 
   const value = React.useMemo(() => [state, setState], [state]);
 
-  const token =
+  const persistedToken =
     persistedState && persistedState.auth && persistedState.auth.token;
 
-  authenticate(token)
-    .then(token => {
-      setState({
-        ...state,
-        auth: {
-          ...state.auth,
-          token
-        }
+  if (!persistedToken) {
+    authenticate()
+      .then(token => {
+        saveTokenToLocalStorage(token);
+
+        setState({
+          ...state,
+          auth: {
+            ...state.auth,
+            token
+          }
+        });
+      })
+      .catch(() => {
+        saveTokenToLocalStorage(undefined);
       });
-    })
-    .catch(() => {});
+  }
 
   return <AuthContext.Provider value={value} {...props} />;
 }
