@@ -16,7 +16,7 @@ export default function Landing() {
   }
 
   return (
-    <Screen>
+    <Screen landing>
       <Container>
         <Title>Github User View</Title>
         <Subtitle>
