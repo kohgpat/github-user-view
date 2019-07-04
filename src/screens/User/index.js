@@ -4,14 +4,9 @@ import {
   Heading,
   Hero,
   Level,
-  Section,
   Button,
-  Card,
-  Content,
-  Columns,
   Image,
-  Media,
-  Panel
+  Media
 } from "react-bulma-components";
 import { useAuth } from "../../contexts/Auth";
 import { UserProvider, useUser } from "../../contexts/User";
@@ -62,57 +57,57 @@ function User() {
         </Hero.Body>
       </Hero>
 
-      <Section>
-        <Container>
-          <Columns>
-            <Columns.Column size={4}>
-              <Card>
-                <Card.Content>
-                  <Media>
-                    <Media.Item position="left">
-                      <Image src={user.avatar_url} size={96} alt="Avatar" />
-                    </Media.Item>
+      <Hero color="warning">
+        <Hero.Body>
+          <Container>
+            <Media>
+              <Media.Item position="left">
+                <Image src={user.avatar_url} size={96} alt="Avatar" />
+              </Media.Item>
 
-                    <Media.Item>
-                      <Heading size={4}>{user.login}</Heading>
-                    </Media.Item>
-                  </Media>
+              <Media.Item>
+                <Heading size={1}>{user.login}</Heading>
+              </Media.Item>
+            </Media>
 
-                  <Content>
-                    <Heading size={4}>Following:</Heading>
-                    <Heading subtitle size={5}>
-                      {user.following}
-                    </Heading>
+            <Level>
+              <Level.Side>
+                <Level.Item>
+                  <Heading size={4}>Following:</Heading>
+                  <Heading subtitle size={5}>
+                    {user.following}
+                  </Heading>
+                </Level.Item>
+              </Level.Side>
 
-                    <Heading size={4}>Followers:</Heading>
-                    <Heading subtitle size={5}>
-                      {user.followers}
-                    </Heading>
+              <Level.Side>
+                <Level.Item>
+                  <Heading size={4}>Followers:</Heading>
+                  <Heading subtitle size={5}>
+                    {user.followers}
+                  </Heading>
+                </Level.Item>
+              </Level.Side>
 
-                    <Heading size={4}>Public Repositories:</Heading>
-                    <Heading subtitle size={5}>
-                      {user.public_repos}
-                    </Heading>
-                  </Content>
-                </Card.Content>
-              </Card>
-            </Columns.Column>
+              <Level.Side>
+                <Level.Item>
+                  <Heading size={4}>Public Repositories:</Heading>
+                  <Heading subtitle size={5}>
+                    {user.public_repos}
+                  </Heading>
+                </Level.Item>
+              </Level.Side>
+            </Level>
 
-            <Columns.Column size={8}>
-              <Panel>
-                <Panel.Header>Public Repositories:</Panel.Header>
+            <Heading size={1}>Public Repositories:</Heading>
 
-                {repos.length > 1 &&
-                  repos.map(repo => (
-                    <Panel.Block key={repo.id}>{repo.name}</Panel.Block>
-                  ))}
+            {repos.length > 1 &&
+              repos.map(repo => <div key={repo.id}>{repo.name}</div>)}
 
-                {!repos.length && <Panel.Block>Fetching...</Panel.Block>}
-              </Panel>
-            </Columns.Column>
-          </Columns>
-        </Container>
-      </Section>
+            {!repos.length && <div>Fetching...</div>}
+          </Container>
+        </Hero.Body>
+      </Hero>
     </div>
   );
 }
