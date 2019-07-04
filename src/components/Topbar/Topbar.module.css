@@ -1,0 +1,11 @@
+.topbar {
+  height: 100px;
+  background-color: #F3DF66;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}

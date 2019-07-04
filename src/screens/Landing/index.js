@@ -1,8 +1,12 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { Container, Heading, Hero, Button, Tag } from "react-bulma-components";
-import LoginButton from "../../components/LoginButton";
 import { useAuth } from "../../contexts/Auth";
+import Screen from "../../components/Screen";
+import Container from "../../components/Container";
+import Title from "../../components/Title";
+import Subtitle from "../../components/Subtitle";
+import Label from "../../components/Label";
+import LoginButton from "../../components/LoginButton";
 
 export default function Landing() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -12,26 +16,15 @@ export default function Landing() {
   }
 
   return (
-    <div>
-      <Hero color="warning" size="fullheight">
-        <Hero.Body>
-          <Container>
-            <Heading size={1}>Github User View</Heading>
-            <Heading size={4}>
-              React demo application built with Hooks, Context API and Github
-              API
-            </Heading>
+    <Screen>
+      <Container>
+        <Title>Github User View</Title>
+        <Subtitle>
+          React demo application built with Hooks, Context API and Github API
+        </Subtitle>
 
-            {isLoading ? (
-              <Tag color="black" size="medium">
-                Authenticating...
-              </Tag>
-            ) : (
-              <Button color="black" renderAs={LoginButton} />
-            )}
-          </Container>
-        </Hero.Body>
-      </Hero>
-    </div>
+        {isLoading ? <Label>Authenticating...</Label> : <LoginButton />}
+      </Container>
+    </Screen>
   );
 }

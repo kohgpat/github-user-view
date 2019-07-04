@@ -1,16 +1,12 @@
 import React, { useEffect } from "react";
-import {
-  Container,
-  Heading,
-  Hero,
-  Level,
-  Button,
-  Image,
-  Media
-} from "react-bulma-components";
 import { useAuth } from "../../contexts/Auth";
 import { UserProvider, useUser } from "../../contexts/User";
 import { ReposProvider, useRepos } from "../../contexts/Repos";
+import Screen from "../../components/Screen";
+import Topbar from "../../components/Topbar";
+import Container from "../../components/Container";
+import Stats from "../../components/Stats";
+import Repos from "../../components/Repos";
 
 function User() {
   const { logout } = useAuth();
@@ -34,75 +30,14 @@ function User() {
   }
 
   return (
-    <div>
-      <Hero color="warning">
-        <Hero.Body>
-          <Container>
-            <Level>
-              <Level.Side>
-                <Level.Item>
-                  <Heading size={4}>Github User View</Heading>
-                </Level.Item>
-              </Level.Side>
+    <Screen>
+      <Topbar user={user} logout={logout} />
 
-              <Level.Side>
-                <Level.Item>
-                  <Button color="black" onClick={logout}>
-                    Logout
-                  </Button>
-                </Level.Item>
-              </Level.Side>
-            </Level>
-          </Container>
-        </Hero.Body>
-      </Hero>
-
-      <Hero color="warning">
-        <Hero.Body>
-          <Container>
-            <Media>
-              <Media.Item position="left">
-                <Image src={user.avatar_url} size={96} alt="Avatar" />
-              </Media.Item>
-
-              <Media.Item>
-                <Heading size={1}>{user.login}</Heading>
-              </Media.Item>
-            </Media>
-
-            <Level>
-              <Level.Side>
-                <Level.Item>
-                  <Heading size={4}>Following:</Heading>
-                  <Heading size={4}>{user.following}</Heading>
-                </Level.Item>
-              </Level.Side>
-
-              <Level.Side>
-                <Level.Item>
-                  <Heading size={4}>Followers:</Heading>
-                  <Heading size={4}>{user.followers}</Heading>
-                </Level.Item>
-              </Level.Side>
-
-              <Level.Side>
-                <Level.Item>
-                  <Heading size={4}>Public Repositories:</Heading>
-                  <Heading size={4}>{user.public_repos}</Heading>
-                </Level.Item>
-              </Level.Side>
-            </Level>
-
-            <Heading size={1}>Public Repositories:</Heading>
-
-            {repos.length > 1 &&
-              repos.map(repo => <div key={repo.id}>{repo.name}</div>)}
-
-            {!repos.length && <div>Fetching...</div>}
-          </Container>
-        </Hero.Body>
-      </Hero>
-    </div>
+      <Container>
+        <Stats user={user} />
+        <Repos repos={repos} />
+      </Container>
+    </Screen>
   );
 }
 
