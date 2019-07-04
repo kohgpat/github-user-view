@@ -45,6 +45,34 @@ function authenticate(params) {
   });
 }
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "SET_TOKEN": {
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          token: action.payload.token,
+          isLoading: false
+        }
+      };
+    }
+    case "LOGOUT": {
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          token: undefined,
+          isLoading: false
+        }
+      };
+    }
+    default: {
+      throw new Error("AuthProvider. Unknown action type.");
+    }
+  }
+}
+
 const AuthContext = React.createContext();
 
 function AuthProvider(props) {
@@ -61,9 +89,9 @@ function AuthProvider(props) {
       }
     : INITIAL_STATE;
 
-  const [state, setState] = React.useState(initialState);
+  const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  const value = React.useMemo(() => [state, setState], [state]);
+  const value = React.useMemo(() => [state, dispatch], [state, dispatch]);
 
   const persistedToken =
     persistedState && persistedState.auth && persistedState.auth.token;
@@ -72,15 +100,7 @@ function AuthProvider(props) {
     authenticate(params)
       .then(token => {
         saveTokenToLocalStorage(token);
-
-        setState({
-          ...state,
-          auth: {
-            ...state.auth,
-            isLoading: false,
-            token
-          }
-        });
+        dispatch({ type: "SET_TOKEN", payload: { token } });
       })
       .catch(() => {
         saveTokenToLocalStorage(undefined);
@@ -97,10 +117,10 @@ function useAuth() {
     throw new Error("useAuth should be used within a AuthContext");
   }
 
-  const [state, setState] = context;
+  const [state, dispatch] = context;
 
   const logout = () => {
-    setState(INITIAL_STATE);
+    dispatch({ type: "LOGOUT" });
     saveState(INITIAL_STATE);
   };
 
