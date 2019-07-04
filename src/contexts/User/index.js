@@ -5,12 +5,26 @@ const INITIAL_STATE = {
   user: {}
 };
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "SET_USER": {
+      return {
+        ...state,
+        user: action.payload.user
+      };
+    }
+    default: {
+      throw new Error("UserContext reducer: Unknown action type.");
+    }
+  }
+}
+
 const UserContext = React.createContext();
 
 function UserProvider(props) {
-  const [state, setState] = React.useState(INITIAL_STATE);
+  const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
 
-  const value = React.useMemo(() => [state, setState], [state]);
+  const value = React.useMemo(() => [state, dispatch], [state, dispatch]);
 
   return <UserContext.Provider value={value} {...props} />;
 }
@@ -22,7 +36,7 @@ function useUser() {
     throw new Error("useUser should be used within a UserContext");
   }
 
-  const [state, setState] = context;
+  const [state, dispatch] = context;
 
   const getUser = () => {
     return state.user;
@@ -30,10 +44,7 @@ function useUser() {
 
   const fetchUser = () => {
     API.github.users.getCurrentUser().then(({ data: user }) => {
-      setState({
-        ...state,
-        user
-      });
+      dispatch({ type: "SET_USER", payload: { user } });
     });
   };
 
