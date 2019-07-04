@@ -68,7 +68,7 @@ function reducer(state, action) {
       };
     }
     default: {
-      throw new Error("AuthProvider. Unknown action type.");
+      throw new Error("AuthContext reducer: Unknown action type.");
     }
   }
 }
