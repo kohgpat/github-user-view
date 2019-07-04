@@ -91,7 +91,7 @@ function AuthProvider(props) {
 
   const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  const value = React.useMemo(() => [state, dispatch], [state, dispatch]);
+  const value = React.useMemo(() => [state, dispatch], [state]);
 
   const persistedToken =
     persistedState && persistedState.auth && persistedState.auth.token;

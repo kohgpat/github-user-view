@@ -24,7 +24,7 @@ const ReposContext = React.createContext();
 function ReposProvider(props) {
   const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
 
-  const value = React.useMemo(() => [state, dispatch], [state, dispatch]);
+  const value = React.useMemo(() => [state, dispatch], [state]);
 
   return <ReposContext.Provider value={value} {...props} />;
 }

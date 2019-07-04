@@ -24,7 +24,7 @@ const UserContext = React.createContext();
 function UserProvider(props) {
   const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
 
-  const value = React.useMemo(() => [state, dispatch], [state, dispatch]);
+  const value = React.useMemo(() => [state, dispatch], [state]);
 
   return <UserContext.Provider value={value} {...props} />;
 }
