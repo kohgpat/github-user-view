@@ -74,27 +74,21 @@ function User() {
               <Level.Side>
                 <Level.Item>
                   <Heading size={4}>Following:</Heading>
-                  <Heading subtitle size={5}>
-                    {user.following}
-                  </Heading>
+                  <Heading size={4}>{user.following}</Heading>
                 </Level.Item>
               </Level.Side>
 
               <Level.Side>
                 <Level.Item>
                   <Heading size={4}>Followers:</Heading>
-                  <Heading subtitle size={5}>
-                    {user.followers}
-                  </Heading>
+                  <Heading size={4}>{user.followers}</Heading>
                 </Level.Item>
               </Level.Side>
 
               <Level.Side>
                 <Level.Item>
                   <Heading size={4}>Public Repositories:</Heading>
-                  <Heading subtitle size={5}>
-                    {user.public_repos}
-                  </Heading>
+                  <Heading size={4}>{user.public_repos}</Heading>
                 </Level.Item>
               </Level.Side>
             </Level>
