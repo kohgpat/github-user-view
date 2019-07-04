@@ -4,7 +4,10 @@ import { parseParams } from "../../utils/parseParams";
 import API from "../../api";
 
 const INITIAL_STATE = {
-  auth: {}
+  auth: {
+    token: undefined,
+    isLoading: false
+  }
 };
 
 function saveTokenToLocalStorage(token) {
@@ -19,14 +22,6 @@ function saveTokenToLocalStorage(token) {
   });
 }
 
-function saveCurrentUserToLocalStorage(user) {
-  const state = loadState();
-  saveState({
-    ...state,
-    user
-  });
-}
-
 function authenticate(params) {
   return new Promise((resolve, reject) => {
     if (!params.code) {
@@ -38,10 +33,6 @@ function authenticate(params) {
       .then(({ data: { token, error } }) => {
         if (token) {
           resolve(token);
-
-          API.github.users.getCurrentUser().then(({ data: user }) => {
-            saveCurrentUserToLocalStorage(user);
-          });
         } else if (error) {
           reject();
         }

@@ -15,16 +15,28 @@ import {
 } from "react-bulma-components";
 import { useAuth } from "../../contexts/Auth";
 import { UserProvider, useUser } from "../../contexts/User";
+import { ReposProvider, useRepos } from "../../contexts/Repos";
 
 function User() {
   const { logout } = useAuth();
-  const { getUser, getRepos, fetchRepos } = useUser();
+  const { getUser, fetchUser } = useUser();
+  const { fetchRepos, getRepos } = useRepos();
   const user = getUser();
   const repos = getRepos();
 
   useEffect(() => {
-    fetchRepos();
+    fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    fetchRepos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <div>
@@ -92,9 +104,7 @@ function User() {
 
                 {repos.length > 1 &&
                   repos.map(repo => (
-                    <Panel.Block key={repo.id}>
-                      {repo.name}
-                    </Panel.Block>
+                    <Panel.Block key={repo.id}>{repo.name}</Panel.Block>
                   ))}
 
                 {!repos.length && <Panel.Block>Fetching...</Panel.Block>}
@@ -109,7 +119,9 @@ function User() {
 
 const ConnectedUser = () => (
   <UserProvider>
-    <User />
+    <ReposProvider>
+      <User />
+    </ReposProvider>
   </UserProvider>
 );
 

@@ -1,19 +1,14 @@
 import React from "react";
 import API from "../../api";
-import { loadState } from "../../utils/localStorage";
 
 const INITIAL_STATE = {
-  user: {
-    repos: []
-  }
+  user: {}
 };
 
 const UserContext = React.createContext();
 
 function UserProvider(props) {
-  const initialState = loadState() || INITIAL_STATE;
-
-  const [state, setState] = React.useState(initialState);
+  const [state, setState] = React.useState(INITIAL_STATE);
 
   const value = React.useMemo(() => [state, setState], [state]);
 
@@ -33,26 +28,18 @@ function useUser() {
     return state.user;
   };
 
-  const getRepos = () => {
-    return (state.user && state.user.repos) || [];
-  };
-
-  const fetchRepos = () => {
-    API.github.repos.getRepos().then(({ data: repos }) => {
+  const fetchUser = () => {
+    API.github.users.getCurrentUser().then(({ data: user }) => {
       setState({
         ...state,
-        user: {
-          ...state.user,
-          repos
-        }
+        user
       });
     });
   };
 
   return {
     getUser,
-    getRepos,
-    fetchRepos
+    fetchUser
   };
 }
 
