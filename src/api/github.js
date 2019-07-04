@@ -9,6 +9,9 @@ const github = {
   repos: {
     getRepos: () => {
       return axios.get(`/user/repos`);
+    },
+    getRepo: (owner, repo) => {
+      return axios.get(`/repos/${owner}/${repo}`);
     }
   }
 };

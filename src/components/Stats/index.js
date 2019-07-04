@@ -5,7 +5,7 @@ import s from "./Stats.module.css";
 
 const Stats = ({ user }) => (
   <div>
-    <Container className={s.container}>
+    <div className={s.container}>
       <div>
         <Title>Following</Title>
         <Title>{user.following}</Title>
@@ -20,7 +20,7 @@ const Stats = ({ user }) => (
         <Title>Public Repositories</Title>
         <Title>{user.public_repos}</Title>
       </div>
-    </Container>
+    </div>
   </div>
 );
 

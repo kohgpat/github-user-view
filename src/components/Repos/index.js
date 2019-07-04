@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Title from "../Title";
 import s from "./Repos.module.css";
 
@@ -11,7 +12,7 @@ const Repos = ({ repos }) => {
         <ul className={s.list}>
           {repos.map(repo => (
             <li className={s.item} key={repo.id}>
-              {repo.name}
+              <Link className={s.link} to={`/me/repos/${repo.name}`}>{repo.name}</Link>
             </li>
           ))}
         </ul>
