@@ -11,8 +11,7 @@ import {
   Columns,
   Image,
   Media,
-  Panel,
-  Icon
+  Panel
 } from "react-bulma-components";
 import { useAuth } from "../../contexts/Auth";
 import { UserProvider, useUser } from "../../contexts/User";
@@ -94,7 +93,6 @@ function User() {
                 {repos.length > 1 &&
                   repos.map(repo => (
                     <Panel.Block key={repo.id}>
-                      <Panel.Icon renderAs={Icon} icon="angle-down" />
                       {repo.name}
                     </Panel.Block>
                   ))}
