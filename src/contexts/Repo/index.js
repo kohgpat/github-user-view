@@ -43,8 +43,6 @@ function useRepo() {
   };
 
   const fetchRepo = (owner, repo) => {
-    console.log('fetchRepo: ', owner, repo);
-
     API.github.repos.getRepo(owner, repo).then(({ data: repo }) => {
       dispatch({ type: "SET_REPO", payload: { repo } });
     });

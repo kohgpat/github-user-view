@@ -1,6 +1,5 @@
 import React from "react";
 import Title from "../Title";
-import Subtitle from "../Subtitle";
 import s from "./RepoInformation.module.css";
 
 export default function RepoInformation({ repo }) {

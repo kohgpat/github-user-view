@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useAuth } from "../../contexts/Auth";
 import { UserProvider, useUser } from "../../contexts/User";
 import { ReposProvider, useRepos } from "../../contexts/Repos";
 import Screen from "../../components/Screen";
@@ -9,9 +8,9 @@ import Stats from "../../components/Stats";
 import Repos from "../../components/Repos";
 
 function User() {
-  const { logout } = useAuth();
   const { getUser, fetchUser } = useUser();
   const { fetchRepos, getRepos } = useRepos();
+
   const user = getUser();
   const repos = getRepos();
 
@@ -31,7 +30,7 @@ function User() {
 
   return (
     <Screen>
-      <Topbar user={user} logout={logout} />
+      <Topbar />
 
       <Container>
         <Stats user={user} />

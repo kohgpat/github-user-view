@@ -1,5 +1,4 @@
 import React from "react";
-import Container from "../Container";
 import Title from "../Title";
 import s from "./Stats.module.css";
 
