@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { UserProvider, useUser } from "../../contexts/User";
+import { useUser } from "../../contexts/User";
 import { ReposProvider, useRepos } from "../../contexts/Repos";
 import Screen from "../../components/Screen";
 import Topbar from "../../components/Topbar";
@@ -41,11 +41,9 @@ function User() {
 }
 
 const ConnectedUser = () => (
-  <UserProvider>
-    <ReposProvider>
-      <User />
-    </ReposProvider>
-  </UserProvider>
+  <ReposProvider>
+    <User />
+  </ReposProvider>
 );
 
 export default ConnectedUser;

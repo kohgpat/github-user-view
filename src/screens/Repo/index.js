@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { UserProvider, useUser } from "../../contexts/User";
+import { useUser } from "../../contexts/User";
 import { RepoProvider, useRepo } from "../../contexts/Repo";
 import Screen from "../../components/Screen";
 import Topbar from "../../components/Topbar";
@@ -47,11 +47,9 @@ function Repo(props) {
 }
 
 const ConnectedRepo = props => (
-  <UserProvider>
-    <RepoProvider>
-      <Repo {...props} />
-    </RepoProvider>
-  </UserProvider>
+  <RepoProvider>
+    <Repo {...props} />
+  </RepoProvider>
 );
 
 export default ConnectedRepo;
