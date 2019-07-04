@@ -5,12 +5,26 @@ const INITIAL_STATE = {
   repos: []
 };
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "SET_REPOS": {
+      return {
+        ...state,
+        repos: action.payload.repos
+      };
+    }
+    default: {
+      throw new Error("ReposContext reducer: Unknown action type.");
+    }
+  }
+}
+
 const ReposContext = React.createContext();
 
 function ReposProvider(props) {
-  const [state, setState] = React.useState(INITIAL_STATE);
+  const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
 
-  const value = React.useMemo(() => [state, setState], [state]);
+  const value = React.useMemo(() => [state, dispatch], [state, dispatch]);
 
   return <ReposContext.Provider value={value} {...props} />;
 }
@@ -22,7 +36,7 @@ function useRepos() {
     throw new Error("useUser should be used within a ReposContext");
   }
 
-  const [state, setState] = context;
+  const [state, dispatch] = context;
 
   const getRepos = () => {
     return state.repos || [];
@@ -30,10 +44,7 @@ function useRepos() {
 
   const fetchRepos = () => {
     API.github.repos.getRepos().then(({ data: repos }) => {
-      setState({
-        ...state,
-        repos
-      });
+      dispatch({ type: "SET_REPOS", payload: { repos } });
     });
   };
 
