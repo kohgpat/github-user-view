@@ -4,7 +4,7 @@ import { ReposProvider, useRepos } from "../../contexts/Repos";
 import Screen from "../../components/Screen";
 import Topbar from "../../components/Topbar";
 import Container from "../../components/Container";
-import Stats from "../../components/Stats";
+import UserStats from "../../components/UserStats";
 import Repos from "../../components/Repos";
 
 function User() {
@@ -33,7 +33,7 @@ function User() {
       <Topbar />
 
       <Container>
-        <Stats user={user} />
+        <UserStats user={user} />
         <Repos repos={repos} />
       </Container>
     </Screen>

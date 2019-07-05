@@ -1,8 +1,8 @@
 import React from "react";
 import Title from "../Title";
-import s from "./Stats.module.css";
+import s from "./UserStats.module.css";
 
-const Stats = ({ user }) => (
+const UserStats = ({ user }) => (
   <div>
     <div className={s.container}>
       <div>
@@ -23,4 +23,4 @@ const Stats = ({ user }) => (
   </div>
 );
 
-export default Stats;
+export default UserStats;
