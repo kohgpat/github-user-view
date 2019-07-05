@@ -31,10 +31,6 @@ function Repo(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, repoName]);
 
-  if (!repo) {
-    return null;
-  }
-
   return (
     <Screen>
       <Topbar />

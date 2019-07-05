@@ -12,6 +12,13 @@
   }
 }
 
+@media (min-width: 700px) {
+  .repo {
+    margin-top: 3rem;
+  }
+}
+
 .title {
   margin-bottom: 3rem;
+  min-height: 38px;
 }

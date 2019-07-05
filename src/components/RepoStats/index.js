@@ -3,6 +3,10 @@ import Title from "../Title";
 import s from "./RepoStats.module.css";
 
 export default function RepoStats({ repo }) {
+  if (!repo.id) {
+    return <div className={s.repo}></div>;
+  }
+
   return (
     <div className={s.repo}>
       <Title className={s.title}>{repo.name}</Title>
