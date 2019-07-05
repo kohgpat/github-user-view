@@ -24,8 +24,8 @@ function User() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!user) {
-    return null;
+  if (!user.login) {
+    return <Screen />;
   }
 
   return (
