@@ -1,8 +1,8 @@
 import React from "react";
 import Title from "../Title";
-import s from "./RepoInformation.module.css";
+import s from "./RepoStats.module.css";
 
-export default function RepoInformation({ repo }) {
+export default function RepoStats({ repo }) {
   return (
     <div className={s.repo}>
       <Title>{repo.name}</Title>

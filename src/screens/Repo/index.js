@@ -4,7 +4,7 @@ import { RepoProvider, useRepo } from "../../contexts/Repo";
 import Screen from "../../components/Screen";
 import Topbar from "../../components/Topbar";
 import Container from "../../components/Container";
-import RepoInformation from "../../components/RepoInformation";
+import RepoStats from "../../components/RepoStats";
 
 function Repo(props) {
   const { getUser, fetchUser } = useUser();
@@ -40,7 +40,7 @@ function Repo(props) {
       <Topbar />
 
       <Container>
-        <RepoInformation repo={repo} />
+        <RepoStats repo={repo} />
       </Container>
     </Screen>
   );
