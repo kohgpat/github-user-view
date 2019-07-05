@@ -1,6 +1,17 @@
 .container {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-top: 3rem;
+  flex-direction: column;
+}
+
+@media (min-width: 700px) {
+  .container {
+    margin-top: 3rem;
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.title {
+  margin-bottom: 3rem;
 }

@@ -1,10 +1,12 @@
 .screen {
   height: 100vh;
   width: 100vw;
-  background-color: #F3DF66;
+  background-color: #f3df66;
   overflow: auto;
 }
 
-.landing {
-  padding-top: 30vh;
+@media (min-width: 500px) {
+  .landing {
+    padding-top: 30vh;
+  }
 }

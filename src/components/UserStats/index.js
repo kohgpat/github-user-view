@@ -6,19 +6,19 @@ export default function UserStats({ user }) {
   return (
     <div>
       <div className={s.container}>
-        <div>
+        <div className={s.stat}>
           <Title>Following</Title>
-          <Title>{user.following}</Title>
+          <Title secondary>{user.following}</Title>
         </div>
 
-        <div>
+        <div className={s.stat}>
           <Title>Followers</Title>
-          <Title>{user.followers}</Title>
+          <Title secondary>{user.followers}</Title>
         </div>
 
-        <div>
+        <div className={s.stat}>
           <Title>Public Repositories</Title>
-          <Title>{user.public_repos}</Title>
+          <Title secondary>{user.public_repos}</Title>
         </div>
       </div>
     </div>

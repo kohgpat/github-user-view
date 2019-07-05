@@ -5,22 +5,22 @@ import s from "./RepoStats.module.css";
 export default function RepoStats({ repo }) {
   return (
     <div className={s.repo}>
-      <Title>{repo.name}</Title>
+      <Title className={s.title}>{repo.name}</Title>
 
       <div className={s.container}>
-        <div>
+        <div className={s.stat}>
           <Title>Stars</Title>
-          <Title>{repo.stargazers_count}</Title>
+          <Title secondary>{repo.stargazers_count}</Title>
         </div>
 
-        <div>
+        <div className={s.stat}>
           <Title>Subscribers</Title>
-          <Title>{repo.subscribers_count}</Title>
+          <Title secondary>{repo.subscribers_count}</Title>
         </div>
 
-        <div>
+        <div className={s.stat}>
           <Title>Watchers</Title>
-          <Title>{repo.watchers_count}</Title>
+          <Title secondary>{repo.watchers_count}</Title>
         </div>
       </div>
     </div>
